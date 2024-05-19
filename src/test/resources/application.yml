@@ -1,0 +1,17 @@
+#spring:
+#  profiles:
+#    active: loadInitialData
+#  datasource:
+#    url: "jdbc:h2:mem:testdb"
+#    driver-class-name: "org.h2.Driver"
+#    username: "sa"
+#    password: "password"
+#  h2:
+#    console:
+#      enabled: true
+#  mail:
+#    host: "127.0.0.1"
+#    port: 8091
+#    username: your-email@example.com
+#    password: your-email-password
+#
