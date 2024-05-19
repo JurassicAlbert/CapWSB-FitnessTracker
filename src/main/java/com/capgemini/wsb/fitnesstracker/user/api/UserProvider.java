@@ -1,8 +1,13 @@
 package com.capgemini.wsb.fitnesstracker.user.api;
 
+import com.capgemini.wsb.fitnesstracker.user.internal.UserEmailDto;
+
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Interface for providing user-related operations.
+ */
 public interface UserProvider {
 
     /**
@@ -26,8 +31,23 @@ public interface UserProvider {
     /**
      * Retrieves all users.
      *
-     * @return An {@link Optional} containing the all users,
+     * @return A list of all users
      */
     List<User> findAllUsers();
 
+    /**
+     * Search users by email part.
+     *
+     * @param emailPart The part of the email to search
+     * @return A list of UserEmailDto whose emails contain the specified part.
+     */
+    List<UserEmailDto> searchUsersByEmailPart(String emailPart);
+
+    /**
+     * Find users older than a specified age.
+     *
+     * @param age The age to compare
+     * @return A list of users older than the specified age
+     */
+    List<User> findUsersOlderThan(int age);
 }
