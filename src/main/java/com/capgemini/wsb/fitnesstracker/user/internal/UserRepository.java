@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -15,12 +16,17 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * Finds a user by email address.
+     * Query searching users by email address. It matches by exact match.
      *
-     * @param email The email of the user to search.
-     * @return An {@link Optional} containing the found user or {@link Optional#empty()} if none matched.
+     * @param email email of the user to search
+     * @return {@link Optional} containing found user or {@link Optional#empty()} if none matched
      */
-    Optional<User> findByEmail(String email);
+    @Query("select u from User u where lower(u.email) like lower(concat('%', ?1, '%'))")
+    default Optional<User> findByEmail(String email) {
+        return findAll().stream()
+                .filter(user -> Objects.equals(user.getEmail(), email))
+                .findFirst();
+    }
 
     /**
      * Finds users older than a given birthdate.

@@ -3,8 +3,11 @@ package com.capgemini.wsb.fitnesstracker.user.api;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
+
+import static org.hibernate.annotations.CascadeType.MERGE;
 
 /**
  * Entity representing a user.
@@ -12,7 +15,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @ToString
 public class User {
 

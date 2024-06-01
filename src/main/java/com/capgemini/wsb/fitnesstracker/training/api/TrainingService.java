@@ -1,8 +1,7 @@
 package com.capgemini.wsb.fitnesstracker.training.api;
 
 import com.capgemini.wsb.fitnesstracker.training.internal.ActivityType;
-import com.capgemini.wsb.fitnesstracker.training.internal.CreateTrainingDto;
-import com.capgemini.wsb.fitnesstracker.training.internal.TrainingDto;
+import com.capgemini.wsb.fitnesstracker.training.api.TrainingDto;
 
 import java.util.Date;
 import java.util.List;

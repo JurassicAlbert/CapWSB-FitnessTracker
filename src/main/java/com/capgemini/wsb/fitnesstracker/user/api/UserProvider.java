@@ -1,7 +1,5 @@
 package com.capgemini.wsb.fitnesstracker.user.api;
 
-import com.capgemini.wsb.fitnesstracker.user.internal.UserEmailDto;
-
 import java.util.List;
 import java.util.Optional;
 

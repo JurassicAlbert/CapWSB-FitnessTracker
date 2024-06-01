@@ -1,8 +1,8 @@
 package com.capgemini.wsb.fitnesstracker.user.api;
 
-import com.capgemini.wsb.fitnesstracker.user.internal.UserEmailDto;
-
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Interface for modifying operations on {@link User} entities.
@@ -48,4 +48,35 @@ public interface UserService {
      * @return A list of users older than the specified age.
      */
     List<User> findUsersOlderThan(int age);
+
+    /**
+     * Finds users older than the specified date.
+     *
+     * @param providedDate The age to compare.
+     * @return A list of users older than the specified date (time).
+     */
+    List<User> getUsersOlderThanDate(LocalDate providedDate);
+
+    /**
+     * Retrieves all users.
+     *
+     * @return A list of all users.
+     */
+    List<User> findAllUsers();
+
+    /**
+     * Retrieves a user based on their ID.
+     *
+     * @param userId the ID of the user to be searched
+     * @return An {@link Optional} containing the located user, or {@link Optional#empty()} if not found
+     */
+    Optional<User> getUser(Long userId);
+
+    /**
+     * Retrieves a user based on their email.
+     *
+     * @param email the email of the user to be searched
+     * @return An {@link Optional} containing the located user, or {@link Optional#empty()} if not found
+     */
+    Optional<User> getUserByEmail(String email);
 }

@@ -3,7 +3,7 @@ package com.capgemini.wsb.fitnesstracker;
 import com.capgemini.wsb.fitnesstracker.training.internal.TrainingRepository;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
-import com.capgemini.wsb.fitnesstracker.user.internal.UserEmailDto;
+import com.capgemini.wsb.fitnesstracker.user.api.UserEmailDto;
 import com.capgemini.wsb.fitnesstracker.user.internal.UserEmailProjection;
 import com.capgemini.wsb.fitnesstracker.user.internal.UserRepository;
 import com.capgemini.wsb.fitnesstracker.user.internal.UserServiceImpl;
@@ -143,7 +143,7 @@ class UserServiceImplTest {
         List<UserEmailDto> users = userService.searchUsersByEmailPart("doe");
 
         assertEquals(1, users.size());
-        assertEquals("john.doe@example.com", users.get(0).getEmail());
+        assertEquals("john.doe@example.com", users.get(0).email());
     }
 
     @Test

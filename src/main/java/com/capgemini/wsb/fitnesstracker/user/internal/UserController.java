@@ -1,15 +1,24 @@
 package com.capgemini.wsb.fitnesstracker.user.internal;
 
 import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.user.api.UserDto;
+import com.capgemini.wsb.fitnesstracker.user.api.UserEmailDto;
 import com.capgemini.wsb.fitnesstracker.user.api.UserHasTrainingsException;
 import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
+import com.capgemini.wsb.fitnesstracker.user.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.lang.Long.valueOf;
+import static java.util.stream.Collectors.toList;
+import static org.springframework.http.ResponseEntity.ok;
 
 /**
  * REST controller for managing users.
@@ -19,93 +28,90 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final UserMapper userMapper;
 
-    /**
-     * Retrieves all users.
-     *
-     * @return A list of {@link UserDto} containing ID and email of all users.
-     */
-    @GetMapping
-    public List<UserDto> getAllUsers() {
-        return userService.findAllUsers()
+    @GetMapping("/simple")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        return ok(userService.findAllUsers()
                 .stream()
                 .map(userMapper::toDto)
-                .collect(Collectors.toList());
+                .toList());
     }
 
-    /**
-     * Retrieves detailed information about a specific user by their ID.
-     *
-     * @param userId The ID of the user to retrieve.
-     * @return The {@link UserDto} containing detailed information about the user.
-     */
-    @GetMapping("/{userId}")
-    public UserDto getUserById(@PathVariable Long userId) {
-        return userService.getUser(userId)
+    @GetMapping()
+    public ResponseEntity<List<UserDto>> getAllUsersDetails() {
+        return ok(userService.findAllUsers()
+                .stream()
                 .map(userMapper::toDto)
+                .toList());
+    }
+
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long userId) {
+        return userService.getUser(userId)
+                .map(user -> ok(userMapper.toDto(user)))
                 .orElseThrow(() -> new UserNotFoundException(userId));
     }
 
-    /**
-     * Creates a new user.
-     *
-     * @param userDto The {@link UserDto} containing information about the new user.
-     * @return The created {@link User}.
-     */
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public User addUser(@RequestBody UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         return userService.createUser(user);
     }
 
-    /**
-     * Deletes a user by their ID.
-     *
-     * @param userId The ID of the user to delete.
-     */
     @DeleteMapping("/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
     }
 
-    /**
-     * Searches for users by part of their email address.
-     *
-     * @param emailPart The part of the email address to search for.
-     * @return A list of {@link UserEmailDto} containing users that match the email part.
-     */
     @GetMapping("/search/email")
-    public List<UserEmailDto> searchUsersByEmailPart(@RequestParam String emailPart) {
-        return userService.searchUsersByEmailPart(emailPart);
+    public ResponseEntity<List<UserEmailDto>> searchUsersByEmailPart(@RequestParam String emailPart) {
+        List<UserEmailDto> users = userService.searchUsersByEmailPart(emailPart);
+        return ok(users);
     }
 
-    /**
-     * Finds users older than the specified age.
-     *
-     * @param age The age threshold.
-     * @return A list of {@link UserDto} containing users older than the specified age.
-     */
+
+    @GetMapping("/email")
+    public List<UserEmailDto> getByEmail(@RequestParam String email) {
+        final Optional<User> userByEmail = userService.getUserByEmail(email);
+        if(userByEmail.isEmpty()) {
+            throw new UserNotFoundException(email);
+        }
+        return userByEmail.stream().map(userMapper::toEmailDto).collect(toList());
+    }
+
     @GetMapping("/search/age")
-    public List<UserDto> findUsersOlderThan(@RequestParam int age) {
-        return userService.findUsersOlderThan(age)
+    public ResponseEntity<List<UserDto>> findUsersOlderThan(@RequestParam int age) {
+        List<UserDto> users = userService.findUsersOlderThan(age)
                 .stream()
                 .map(userMapper::toDto)
-                .collect(Collectors.toList());
+                .collect(toList());
+        return ok(users);
     }
 
-    /**
-     * Updates an existing user.
-     *
-     * @param userId  The ID of the user to update.
-     * @param userDto The {@link UserDto} containing updated information.
-     * @return The updated {@link User}.
-     */
+    @GetMapping("/older/{time}")
+    public ResponseEntity<List<UserDto>> getUsersOlderThanGivenAge(@PathVariable LocalDate time) {
+        final List<User> olderUsers = userService.getUsersOlderThanDate(time);
+        if(olderUsers.isEmpty()) {
+            throw new UserNotFoundException(valueOf(String.valueOf(time)));
+        }
+        return ok(olderUsers.stream().map(userMapper::toDto).collect(toList()));
+    }
+
     @PutMapping("/{userId}")
-    public User updateUser(@PathVariable Long userId, @RequestBody UserDto userDto) {
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody UserDto userDto) {
         User user = userMapper.toEntity(userDto);
-        return userService.updateUser(userId, user);
+        User updatedUser = userService.updateUser(userId, user);
+        return ok(updatedUser);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
     @ExceptionHandler(UserHasTrainingsException.class)

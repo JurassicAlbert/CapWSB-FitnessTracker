@@ -1,14 +1,12 @@
 package com.capgemini.wsb.fitnesstracker.user.internal;
 
 import com.capgemini.wsb.fitnesstracker.training.internal.TrainingRepository;
-import com.capgemini.wsb.fitnesstracker.user.api.User;
-import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
-import com.capgemini.wsb.fitnesstracker.user.api.UserProvider;
-import com.capgemini.wsb.fitnesstracker.user.api.UserService;
+import com.capgemini.wsb.fitnesstracker.user.api.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,12 +21,6 @@ public class UserServiceImpl implements UserService, UserProvider {
     private final UserRepository userRepository;
     private final TrainingRepository trainingRepository;
 
-    /**
-     * Creates a new user.
-     *
-     * @param user the user to be created
-     * @return the created user
-     */
     @Override
     public User createUser(final User user) {
         if (user.getId() != null) {
@@ -37,43 +29,21 @@ public class UserServiceImpl implements UserService, UserProvider {
         return userRepository.save(user);
     }
 
-    /**
-     * Retrieves a user based on their ID.
-     *
-     * @param userId the ID of the user to be searched
-     * @return An {@link Optional} containing the located user, or {@link Optional#empty()} if not found
-     */
     @Override
     public Optional<User> getUser(final Long userId) {
         return userRepository.findById(userId);
     }
 
-    /**
-     * Retrieves a user based on their email.
-     *
-     * @param email the email of the user to be searched
-     * @return An {@link Optional} containing the located user, or {@link Optional#empty()} if not found
-     */
     @Override
     public Optional<User> getUserByEmail(final String email) {
         return userRepository.findByEmail(email);
     }
 
-    /**
-     * Retrieves all users.
-     *
-     * @return A list of all users
-     */
     @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
-    /**
-     * Deletes a user by their ID.
-     *
-     * @param userId the ID of the user to be deleted
-     */
     @Override
     public void deleteUser(Long userId) {
         if (trainingRepository.existsByUserId(userId)) {
@@ -82,12 +52,6 @@ public class UserServiceImpl implements UserService, UserProvider {
         userRepository.deleteById(userId);
     }
 
-    /**
-     * Searches for users by part of their email address.
-     *
-     * @param emailPart the part of the email address to search for
-     * @return A list of UserEmailDto whose emails contain the specified part
-     */
     @Override
     public List<UserEmailDto> searchUsersByEmailPart(String emailPart) {
         return userRepository.findUserIdsAndEmailsByEmailPart(emailPart)
@@ -96,25 +60,25 @@ public class UserServiceImpl implements UserService, UserProvider {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Finds users older than the specified age.
-     *
-     * @param age the age threshold
-     * @return A list of users older than the specified age
-     */
     @Override
     public List<User> findUsersOlderThan(int age) {
         LocalDate maxBirthdate = LocalDate.now().minusYears(age);
         return userRepository.findUsersOlderThan(maxBirthdate);
     }
 
-    /**
-     * Updates an existing user.
-     *
-     * @param userId the ID of the user to be updated
-     * @param user   the updated user information
-     * @return the updated user
-     */
+    public List<User> getUsersOlderThanDate(final LocalDate time) {
+        final List<User> olderUsers = new ArrayList<>();
+        final List<User> allUsers = userRepository.findAll();
+        if(!allUsers.isEmpty()) {
+            allUsers.forEach(user -> {
+                if(user.getBirthdate().isBefore(time)) {
+                    olderUsers.add(user);
+                }
+            });
+        }
+        return olderUsers;
+    }
+
     @Override
     public User updateUser(Long userId, User user) {
         return userRepository.findById(userId)

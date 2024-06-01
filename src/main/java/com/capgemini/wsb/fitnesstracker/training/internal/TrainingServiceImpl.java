@@ -1,8 +1,7 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
-import com.capgemini.wsb.fitnesstracker.training.api.Training;
-import com.capgemini.wsb.fitnesstracker.training.api.TrainingNotFoundException;
-import com.capgemini.wsb.fitnesstracker.training.api.TrainingService;
+import com.capgemini.wsb.fitnesstracker.training.api.*;
+import com.capgemini.wsb.fitnesstracker.training.api.TrainingDto;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
 import com.capgemini.wsb.fitnesstracker.user.api.UserProvider;
@@ -40,15 +39,14 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     /**
-     * Retrieves a user based on the training's ID.
+     * Retrieves the user associated with a training based on its ID.
      *
      * @param trainingId the ID of the training to be retrieved
      * @return an {@link Optional} containing the located user, or {@link Optional#empty()} if not found
      */
     @Override
     public Optional<User> getTraining(final Long trainingId) {
-        return trainingRepository.findById(trainingId)
-                .map(Training::getUser);
+        return trainingRepository.findById(trainingId).map(Training::getUser);
     }
 
     /**
@@ -62,6 +60,16 @@ public class TrainingServiceImpl implements TrainingService {
                 .stream()
                 .map(trainingMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Retrieves all trainings.
+     *
+     * @return a list of all trainings
+     */
+    @Override
+    public List<Training> getTrainings() {
+        return trainingRepository.findAll();
     }
 
     /**
@@ -109,12 +117,12 @@ public class TrainingServiceImpl implements TrainingService {
     /**
      * Updates an existing training.
      *
-     * @param trainingId the ID of the training to be updated
+     * @param trainingId        the ID of the training to be updated
      * @param createTrainingDto the updated training information
      * @return the updated training as DTO
      */
     @Override
-    public TrainingDto updateTraining(final Long trainingId, final CreateTrainingDto createTrainingDto) {
+    public com.capgemini.wsb.fitnesstracker.training.api.TrainingDto updateTraining(final Long trainingId, final CreateTrainingDto createTrainingDto) {
         User user = userProvider.getUser(createTrainingDto.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(createTrainingDto.getUserId()));
         return trainingRepository.findById(trainingId)
@@ -127,5 +135,25 @@ public class TrainingServiceImpl implements TrainingService {
                     return trainingMapper.toDto(trainingRepository.save(existingTraining));
                 })
                 .orElseThrow(() -> new TrainingNotFoundException(trainingId));
+    }
+
+    /**
+     * Processes and saves a new Training entity from a CreateTrainingTO.
+     *
+     * @param createTrainingTO the transfer object with training details
+     * @return the saved Training entity
+     */
+    public Training processTrainingEntity(CreateTrainingTO createTrainingTO) {
+        User user = userProvider.getUser(createTrainingTO.getUserId())
+                .orElseThrow(() -> new UserNotFoundException(createTrainingTO.getUserId()));
+        Training training = new Training(
+                user,
+                createTrainingTO.getStartTime(),
+                createTrainingTO.getEndTime(),
+                createTrainingTO.getActivityType(),
+                createTrainingTO.getDistance(),
+                createTrainingTO.getAverageSpeed()
+        );
+        return trainingRepository.save(training);
     }
 }

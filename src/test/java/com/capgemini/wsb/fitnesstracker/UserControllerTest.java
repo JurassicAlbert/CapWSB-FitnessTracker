@@ -7,7 +7,7 @@
 //import com.capgemini.wsb.fitnesstracker.user.internal.UserDto;
 //import com.capgemini.wsb.fitnesstracker.user.internal.UserMapper;
 //import com.capgemini.wsb.fitnesstracker.user.internal.UserServiceImpl;
-//import com.capgemini.wsb.fitnesstracker.user.internal.UserEmailDto;
+//import com.capgemini.wsb.fitnesstracker.user.api.UserEmailDto;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.InjectMocks;

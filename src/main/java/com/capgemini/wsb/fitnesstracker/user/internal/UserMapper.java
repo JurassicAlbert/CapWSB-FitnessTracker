@@ -1,17 +1,16 @@
 package com.capgemini.wsb.fitnesstracker.user.internal;
 
 import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.user.api.UserDetailDto;
+import com.capgemini.wsb.fitnesstracker.user.api.UserDto;
+import com.capgemini.wsb.fitnesstracker.user.api.UserEmailDto;
 import org.springframework.stereotype.Component;
 
-/**
- * Mapper for converting between User and UserDto.
- */
 @Component
 public class UserMapper {
 
     public UserDto toDto(User user) {
-        return new UserDto(
-                user.getId(),
+        return new UserDto(user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getBirthdate(),
@@ -19,12 +18,28 @@ public class UserMapper {
     }
 
     public User toEntity(UserDto userDto) {
-        User user = new User(
+        return new User(
                 userDto.firstName(),
                 userDto.lastName(),
                 userDto.birthdate(),
                 userDto.email());
-        user.setId(userDto.id());
-        return user;
     }
+
+    public User toEntitySave(UserDto userDto) {
+        return new User(
+                userDto.id(),
+                userDto.firstName(),
+                userDto.lastName(),
+                userDto.birthdate(),
+                userDto.email());
+    }
+
+    UserEmailDto toEmailDto(User user) {
+        return new UserEmailDto(user.getId(), user.getEmail());
+    }
+
+    UserDetailDto toUserDetailDto(User user) {
+        return new UserDetailDto(user.getId(), user.getFirstName(), user.getLastName());
+    }
+
 }
