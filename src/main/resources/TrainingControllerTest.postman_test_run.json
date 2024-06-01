@@ -1,0 +1,244 @@
+{
+	"id": "9ac34823-2fe9-4ddf-bc54-2ea161af080e",
+	"name": "TrainingControllerTest",
+	"timestamp": "2024-06-01T11:34:10.619Z",
+	"collection_id": "6434586-4d36a325-4099-4565-b79f-79e6a6aa8a93",
+	"folder_id": 0,
+	"environment_id": "6434586-f107ba68-6055-467e-b800-b75469f12f92",
+	"totalPass": 12,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-06-01T11:34:08.550Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "fab9ad7a-6975-4c87-ab53-704e972c31c9",
+			"name": "Get All Trainings",
+			"url": "http://localhost:8080/v1/trainings",
+			"time": 23,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				23
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array": true
+				}
+			]
+		},
+		{
+			"id": "4f8c4c6f-bc14-42f5-af3e-1819e250801c",
+			"name": "Get Trainings By User ID",
+			"url": "http://localhost:8080/v1/trainings/1",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array": true
+				}
+			]
+		},
+		{
+			"id": "8dacc66e-5407-4bb0-bf3d-22faeee84e78",
+			"name": "Get Finished Trainings After Date",
+			"url": "http://localhost:8080/v1/trainings/finished/2024-05-18",
+			"time": 10,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array": true
+				}
+			]
+		},
+		{
+			"id": "1b163d3e-c5f5-415e-a0c2-be2cb996180e",
+			"name": "Get Trainings By Activity Type",
+			"url": "http://localhost:8080/v1/trainings/activityType?activityType=RUNNING",
+			"time": 18,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				18
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array": true
+				}
+			]
+		},
+		{
+			"id": "780d3e79-3d00-4afc-9d6f-332343d930ca",
+			"name": "Create Training",
+			"url": "http://localhost:8080/v1/trainings",
+			"time": 11,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Response has user id": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has user id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Response has user id": true
+				}
+			]
+		},
+		{
+			"id": "55e6eca8-5d3e-4b61-afc2-bad4dbc57164",
+			"name": "Update Training",
+			"url": "http://localhost:8080/v1/trainings/3",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response has updated activity type": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has updated activity type": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response has updated activity type": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 87,
+	"collection": {
+		"requests": [
+			{
+				"id": "fab9ad7a-6975-4c87-ab53-704e972c31c9",
+				"method": "GET"
+			},
+			{
+				"id": "4f8c4c6f-bc14-42f5-af3e-1819e250801c",
+				"method": "GET"
+			},
+			{
+				"id": "8dacc66e-5407-4bb0-bf3d-22faeee84e78",
+				"method": "GET"
+			},
+			{
+				"id": "1b163d3e-c5f5-415e-a0c2-be2cb996180e",
+				"method": "GET"
+			},
+			{
+				"id": "780d3e79-3d00-4afc-9d6f-332343d930ca",
+				"method": "POST"
+			},
+			{
+				"id": "55e6eca8-5d3e-4b61-afc2-bad4dbc57164",
+				"method": "PUT"
+			}
+		]
+	}
+}

@@ -1,0 +1,343 @@
+{
+	"id": "04d2c10f-576a-4886-aacf-801c0112cd56",
+	"name": "UserControllerTest",
+	"timestamp": "2024-06-01T11:10:44.648Z",
+	"collection_id": "6434586-58a87812-c2e3-4d8e-88b2-80b827683715",
+	"folder_id": 0,
+	"environment_id": "6434586-f107ba68-6055-467e-b800-b75469f12f92",
+	"totalPass": 14,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-06-01T11:10:41.042Z",
+	"totalFail": 2,
+	"results": [
+		{
+			"id": "85e4caef-67d0-4405-8038-f35446e87abf",
+			"name": "Get All Users",
+			"url": "http://localhost:8080/v1/users",
+			"time": 865,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				865
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array": true
+				}
+			]
+		},
+		{
+			"id": "9dc7c568-1611-4c1a-991d-a3b669c57a1f",
+			"name": "Get User By Id",
+			"url": "http://localhost:8080/v1/users/1",
+			"time": 62,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"User's email is present": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"User's email is present": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				62
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"User's email is present": true
+				}
+			]
+		},
+		{
+			"id": "49514096-d4cf-46c0-ad6e-4e302438f3dc",
+			"name": "Get User By Email",
+			"url": "http://localhost:8080/v1/users/email?email=john.doe@example.com",
+			"time": 30,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 200": false,
+				"Response has at least 1 user": false
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Response has at least 1 user": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				30
+			],
+			"allTests": [
+				{
+					"Status code is 200": false,
+					"Response has at least 1 user": false
+				}
+			]
+		},
+		{
+			"id": "4816c454-e435-45bc-a16f-d4b797a57200",
+			"name": "Find Users Older Than",
+			"url": "http://localhost:8080/v1/users/search/age?age=27",
+			"time": 166,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response has at least 1 user": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has at least 1 user": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				166
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response has at least 1 user": true
+				}
+			]
+		},
+		{
+			"id": "db2c6ab9-fb71-4701-a27a-0d1c32e05a9a",
+			"name": "Get Users Older Than Given Date",
+			"url": "http://localhost:8080/v1/users/older/2000-01-01",
+			"time": 36,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response has at least 1 user": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has at least 1 user": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				36
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response has at least 1 user": true
+				}
+			]
+		},
+		{
+			"id": "b5bd335c-9099-4f01-b0de-77804f6b3ea0",
+			"name": "Update User",
+			"url": "http://localhost:8080/v1/users/1",
+			"time": 233,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"User's email is john.doe@example.com": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"User's email is john.doe@example.com": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				233
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"User's email is john.doe@example.com": true
+				}
+			]
+		},
+		{
+			"id": "9bba36fc-bc9e-4111-a74b-c63ca300c155",
+			"name": "Add User",
+			"url": "http://localhost:8080/v1/users",
+			"time": 13,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "cea0900c-c690-44bc-98e0-98337d1b469d",
+			"name": "Search by Email Part",
+			"url": "http://localhost:8080/v1/users/search/email?emailPart=john",
+			"time": 52,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response has at least 1 user": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has at least 1 user": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				52
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response has at least 1 user": true
+				}
+			]
+		},
+		{
+			"id": "913ceea0-2f29-48d2-b4a1-961a1c793083",
+			"name": "Delete User",
+			"url": "http://localhost:8080/v1/users/12",
+			"time": 60,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				60
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 1517,
+	"collection": {
+		"requests": [
+			{
+				"id": "85e4caef-67d0-4405-8038-f35446e87abf",
+				"method": "GET"
+			},
+			{
+				"id": "9dc7c568-1611-4c1a-991d-a3b669c57a1f",
+				"method": "GET"
+			},
+			{
+				"id": "49514096-d4cf-46c0-ad6e-4e302438f3dc",
+				"method": "GET"
+			},
+			{
+				"id": "4816c454-e435-45bc-a16f-d4b797a57200",
+				"method": "GET"
+			},
+			{
+				"id": "db2c6ab9-fb71-4701-a27a-0d1c32e05a9a",
+				"method": "GET"
+			},
+			{
+				"id": "b5bd335c-9099-4f01-b0de-77804f6b3ea0",
+				"method": "PUT"
+			},
+			{
+				"id": "9bba36fc-bc9e-4111-a74b-c63ca300c155",
+				"method": "POST"
+			},
+			{
+				"id": "cea0900c-c690-44bc-98e0-98337d1b469d",
+				"method": "GET"
+			},
+			{
+				"id": "913ceea0-2f29-48d2-b4a1-961a1c793083",
+				"method": "DELETE"
+			}
+		]
+	}
+}

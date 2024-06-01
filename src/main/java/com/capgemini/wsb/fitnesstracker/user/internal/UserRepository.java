@@ -21,8 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param email email of the user to search
      * @return {@link Optional} containing found user or {@link Optional#empty()} if none matched
      */
-    @Query("select u from User u where lower(u.email) like lower(concat('%', ?1, '%'))")
-    default Optional<User> findByEmail(String email) {
+    @Query("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER(CONCAT('%', :email, '%'))")
+    default Optional<User> findByEmail(@Param("email") String email) {
         return findAll().stream()
                 .filter(user -> Objects.equals(user.getEmail(), email))
                 .findFirst();
@@ -43,7 +43,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param emailPart The part of the email to search.
      * @return A list of users whose emails contain the specified part.
      */
-    @Query("SELECT u.id as id, u.email as email " +
-            "FROM User u WHERE u.email LIKE %:emailPart%")
+    @Query("SELECT u.id as id, u.email as email FROM User u WHERE LOWER(u.email) LIKE LOWER(CONCAT('%', :emailPart, '%'))")
     List<UserEmailProjection> findUserIdsAndEmailsByEmailPart(@Param("emailPart") String emailPart);
 }
